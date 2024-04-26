@@ -1,22 +1,23 @@
 <template>
-    <div class="carousel-wrapper">
-      <div class="carousel" >
-        <div class="slides" :aria-live="autoRotate? 'off' : 'polite'"  @focus="stopAutoRotate" @blur="startAutoRotate" :style="{ transform: 'translateX(' + (-currentIndex * 100) + '%)' }">
-          <figure v-for="(slide, index) in slides" :key="index"
+    <section class="carousel-wrapper" role="group" aria-roledescription="carousel" aria-label="description/name of section">
+      <div class="carousel">
+        <div class="slides" id="myCarousel-items" :aria-live="autoRotate? 'off' : 'polite'"  @focus="stopAutoRotate" @blur="startAutoRotate" :style="{ transform: 'translateX(' + (-currentIndex * 100) + '%)' }">
+          <div v-for="(slide, index) in slides" :key="index"
+            :id="index"
             :tabindex="index === currentIndex ? 0 : -1" 
             role="group" 
             aria-roledescription="slide" 
             class="slide"  
             :aria-hidden="index !== currentIndex" >
             <img :src="slide.image" :alt="slide.alt">
-            <figcaption>{{ slide.caption }}</figcaption>
-          </figure>
+            <p>{{ slide.caption }}</p>
+          </div>
         </div>
       </div>
       <button @click="toggleAutoRotate" class="control-btn" :aria-label="autoRotate ? 'Stop' : 'Start'" >{{ autoRotate ? 'Stop' : 'Start' }}</button>
-      <button class="previous round" aria-label="previous" @click="prevSlide1">&#8249;</button>
-      <button class="next round" aria-label="next" @click="nextSlide1">&#8250;</button>
-    </div>
+      <button class="previous round" aria-controls="myCarousel-items" aria-label="previous" @click="prevSlide1">&#8249;</button>
+      <button class="next round" aria-controls="myCarousel-items" aria-label="next" @click="nextSlide1">&#8250;</button>
+    </section>
   </template>
   
   <script>
@@ -40,7 +41,7 @@
     },
     methods: {
       startAutoRotate() {
-        this.intervalId = setInterval(this.nextSlide, 3000); // Rotate every 3 seconds
+        this.intervalId = setInterval(this.nextSlide, 5000); // Rotate every 3 seconds
       },
       stopAutoRotate() {
         clearInterval(this.intervalId);
